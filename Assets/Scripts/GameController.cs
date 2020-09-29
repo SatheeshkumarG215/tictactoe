@@ -49,14 +49,14 @@ public class GameController : MonoBehaviour
     public PlayerColor activePlayerColor;
     public PlayerColor inactivePlayerColor;
     public GameObject startInfo;
-
+    
 
 
     private string computerSide;
     public bool playerMove;
     public float delay;
     private int value;
-
+    bool counter;
 
 
     void Awake()
@@ -147,79 +147,63 @@ public class GameController : MonoBehaviour
     public void EndTurn()
     {
         moveCount++;
-
-
-
-        if (buttonList[0].text == playerSide && buttonList[1].text == playerSide && buttonList[2].text == playerSide)
+        counter = true;
+        for (int i=0;i<=6;i++)
         {
-            GameOver(playerSide);
-        }
-        else if (buttonList[3].text == playerSide && buttonList[4].text == playerSide && buttonList[5].text == playerSide)
+            if(i%3==0)//Row
+            {
+                //i=0,i=3,i=6
+                if (buttonList[i].text == playerSide && buttonList[i+1].text == playerSide && buttonList[i+2].text == playerSide)
+                {
+                    GameOver(playerSide);
+                    //counter = false;
+                }
+                else if (buttonList[i].text == computerSide && buttonList[i + 1].text == computerSide && buttonList[i + 2].text == computerSide)
+                {
+                    GameOver(computerSide);
+                    //counter = false;
+                }
+            }
+            if (i < 3)//Column
+            {
+                //i=0,i=1,i=2
+                if (buttonList[i].text == playerSide && buttonList[i + 3].text == playerSide && buttonList[i + 6].text == playerSide)
+                {
+                    GameOver(playerSide);
+                    //counter = false;
+                }
+                else if (buttonList[i].text == computerSide && buttonList[i + 3].text == computerSide && buttonList[i + 6].text == computerSide)
+                {
+                    GameOver(computerSide);
+                    //counter = false;
+                }
+            }
+        }       
+                
+        if (buttonList[0].text == playerSide && buttonList[4].text == playerSide && buttonList[8].text == playerSide)
         {
-            GameOver(playerSide);
-        }
-        else if (buttonList[6].text == playerSide && buttonList[7].text == playerSide && buttonList[8].text == playerSide)
-        {
-            GameOver(playerSide);
-        }
-        else if (buttonList[0].text == playerSide && buttonList[3].text == playerSide && buttonList[6].text == playerSide)
-        {
-            GameOver(playerSide);
-        }
-        else if (buttonList[1].text == playerSide && buttonList[4].text == playerSide && buttonList[7].text == playerSide)
-        {
-            GameOver(playerSide);
-        }
-        else if (buttonList[2].text == playerSide && buttonList[5].text == playerSide && buttonList[8].text == playerSide)
-        {
-            GameOver(playerSide);
-        }
-        else if (buttonList[0].text == playerSide && buttonList[4].text == playerSide && buttonList[8].text == playerSide)
-        {
-            GameOver(playerSide);
+            GameOver(playerSide);//Left-diagonal
+            //counter = false;
         }
         else if (buttonList[2].text == playerSide && buttonList[4].text == playerSide && buttonList[6].text == playerSide)
         {
-            GameOver(playerSide);
-        }
-
-
-
-
-        else if (buttonList[0].text == computerSide && buttonList[1].text == computerSide && buttonList[2].text == computerSide)
-        {
-            GameOver(computerSide);
-        }
-        else if (buttonList[3].text == computerSide && buttonList[4].text == computerSide && buttonList[5].text == computerSide)
-        {
-            GameOver(computerSide);
-        }
-        else if (buttonList[6].text == computerSide && buttonList[7].text == computerSide && buttonList[8].text == computerSide)
-        {
-            GameOver(computerSide);
-        }
-        else if (buttonList[0].text == computerSide && buttonList[3].text == computerSide && buttonList[6].text == computerSide)
-        {
-            GameOver(computerSide);
-        }
-        else if (buttonList[1].text == computerSide && buttonList[4].text == computerSide && buttonList[7].text == computerSide)
-        {
-            GameOver(computerSide);
-        }
-        else if (buttonList[2].text == computerSide && buttonList[5].text == computerSide && buttonList[8].text == computerSide)
-        {
-            GameOver(computerSide);
+            GameOver(playerSide);//Right-diagonal
+            //counter = false;
         }
         else if (buttonList[0].text == computerSide && buttonList[4].text == computerSide && buttonList[8].text == computerSide)
         {
-            GameOver(computerSide);
+            GameOver(computerSide);//Left-diagonal
+            //counter = false;
         }
         else if (buttonList[2].text == computerSide && buttonList[4].text == computerSide && buttonList[6].text == computerSide)
         {
-            GameOver(computerSide);
+            GameOver(computerSide);//Right-diagonal
+            //counter = false;
+
         }
         else if (moveCount >= 9)
         {
+            if (counter!=false)
             GameOver("Draw");
         }
         else
@@ -243,7 +227,7 @@ public class GameController : MonoBehaviour
     void GameOver(string winningPlayer)
     {
         SetBoardInteractable(false);
-
+        counter = false;
 
 
         if (winningPlayer == "Draw")
@@ -337,4 +321,6 @@ public class GameController : MonoBehaviour
         playerO.panel.color = inactivePlayerColor.panelColor;
         playerO.text.color = inactivePlayerColor.textColor;
     }
+
+    
 }
